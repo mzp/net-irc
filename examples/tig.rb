@@ -332,6 +332,7 @@ class TwitterIrcGateway < Net::IRC::Server::Session
 		@im_thread     =
 		@utf7          =
 		@httpproxy     = nil
+		@footer = ''
 		load_config
 	end
 
@@ -607,6 +608,9 @@ class TwitterIrcGateway < Net::IRC::Server::Session
 						return
 					end
 
+					if @footer then
+						mesg += ' ' + @footer
+					end
 					q = { :status => mesg, :source => source }
 
 					if @opts.old_style_reply and mesg[/\A@(?>([A-Za-z0-9_]{1,15}))[^A-Za-z0-9_]/]
@@ -1225,6 +1229,17 @@ class TwitterIrcGateway < Net::IRC::Server::Session
 		end
 		log "http://twitter.com/#{nick}"
 	end
+
+
+	ctcp_action "footer" do |target,mesg,command,args|
+		if args.empty?
+			@footer = nil
+			log "footer is empty"
+		else
+			@footer = args.join ' '
+			log "footer is #{@footer}"
+		end
+   end
 
 	ctcp_action "retweet", "rt" do |target, mesg, command, args|
 		if args.empty?
