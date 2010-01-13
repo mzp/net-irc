@@ -2230,7 +2230,7 @@ class TwitterIrcGateway < Net::IRC::Server::Session
 	Status = Struct.new(:id, :text, :source, :created_at, :truncated, :favorited, :geo,
 	                    :in_reply_to_status_id, :in_reply_to_user_id,
 	                    :in_reply_to_screen_name, :user,
-	                    :retweeted_status)
+	                    :retweeted_status,:geo,:contributors)
 	DM     = Struct.new(:id, :text, :created_at,
 	                    :sender_id, :sender_screen_name, :sender,
 	                    :recipient_id, :recipient_screen_name, :recipient)
